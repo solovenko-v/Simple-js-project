@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,9 +74,25 @@
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-exports.default = [1, 2, 150];
+exports.remove_task = remove_task;
+function remove_task(id) {
+    var list = JSON.parse(localStorage.getItem('todo'));
+    localStorage.setItem('todo', list.filter(function (item) {
+        return item !== id;
+    }));
+}
+
+// export function add_task() {
+//     let list = JSON.parse(localStorage.getItem('todo'))
+//     // max_ind = list.reduce((maxind, ind) => {})
+//     list.push({
+//         id: 1,
+//         text: document.getElementById('input_text').innerText 
+//     })
+//     localStorage.setItem('todo', list)
+// }
 
 /***/ }),
 /* 1 */
@@ -85,13 +101,48 @@ exports.default = [1, 2, 150];
 "use strict";
 
 
-var _db = __webpack_require__(0);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.update_view = update_view;
+function update_view(list) {
+    var html_list = list.reduce(function (previous, current) {
+        return previous + "<li>" + current.text + "\n                    <button onclick=\"remove_task(" + current.id + ")\">x</button></li>";
+    }, '');
+    document.getElementById("main").innerHTML = "<ul>\n        " + html_list + "\n    </ul>";
+}
 
-var _db2 = _interopRequireDefault(_db);
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+"use strict";
 
-document.getElementById("main").innerHTML = '<p>Hello world!</p>';
+
+var _model = __webpack_require__(0);
+
+var _view = __webpack_require__(1);
+
+// import { add_task } from './model'
+if (localStorage.getItem('todo') !== null) {
+    (0, _view.update_view)(JSON.parse(localStorage.todo));
+}
+
+function add_task() {
+    var list_text = localStorage.getItem('todo');
+    if (list_text === null) {
+        list_text = JSON.stringify(new Array());
+    }
+    var list = JSON.parse(list_text);
+    max_id = list.reduce(function (maxid, el) {
+        return el.id > maxid ? el.id : maxid;
+    });
+    list.push({
+        id: 1,
+        text: document.getElementById('input_text').innerText
+    });
+    localStorage.setItem('todo', list);
+}
 
 /***/ })
 /******/ ]);
