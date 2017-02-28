@@ -8,11 +8,16 @@ if (localStorage.getItem('todo') !== null) {
 
 function add_task() {
     let list_text = localStorage.getItem('todo')
-    if (list_text === null) {list_text = JSON.stringify(new Array)}
-    let list = JSON.parse(list_text)
-    max_id = list.reduce((maxid, el) => el.id > maxid ? el.id : maxid)
+    alert(list_text)
+    if (list_text !== null) {
+        // list = JSON.parse(list_text)
+        max_id = list_text.reduce((maxid, el) => el.id > maxid ? el.id : maxid)
+    } else {
+        max_id = 0
+        list = new Array     
+    }
     list.push({
-        id: 1,
+        id: max_id + 1,
         text: document.getElementById('input_text').innerText 
     })
     localStorage.setItem('todo', list)
