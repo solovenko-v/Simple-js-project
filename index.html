@@ -10,20 +10,19 @@
     <body>
         <div id="main">
             <input type="text" name="add task" 
-            onkeydown="    let list_text = localStorage.getItem('todo')
-    alert(typeof list_text)
-    if (list_text !== null) {
-        // list = JSON.parse(list_text)
-        max_id = list_text.reduce((maxid, el) => {return (el.id > maxid) ? el.id : maxid})
-    } else {
-        max_id = 0
-        list = new Array     
-    }
-    list.push({
-        id: max_id + 1,
-        text: document.getElementById('input_text').innerText 
-    })
-    localStorage.setItem('todo', list)" 
+            onkeydown="let list_text = localStorage.getItem('todo')
+                if (typeof(list_text) !== 'undefined' && list_text !== null && list_text !== '') {
+                    list = JSON.parse(list_text)
+                    max_id = list.reduce((maxid, el) => el.id > maxid ? el.id : maxid) 
+                } else {
+                    max_id = 0
+                    list = new Array() 
+                }
+                list.push({
+                    id: max_id + 1,
+                    text: document.getElementById('input_text').innerText 
+                })
+                localStorage.setItem('todo', JSON.list)" 
             id="input_text">
         </div>
     </body>

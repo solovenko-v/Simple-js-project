@@ -119,26 +119,33 @@ function update_view(list) {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; // import { add_task } from './model'
+
+
 var _model = __webpack_require__(0);
 
 var _view = __webpack_require__(1);
 
-// import { add_task } from './model'
-if (localStorage.getItem('todo') !== null) {
-    (0, _view.update_view)(JSON.parse(localStorage.todo));
+var list_text = localStorage.getItem('todo');
+if (typeof list_text !== 'undefined' && list_text !== '') {
+    alert(typeof list_text === 'undefined' ? 'undefined' : _typeof(list_text));
+    (0, _view.update_view)(JSON.parse(list_text));
+    alert(1);
 }
 
 function add_task() {
     var list_text = localStorage.getItem('todo');
-    if (list_text === null) {
-        list_text = JSON.stringify(new Array());
+    if (typeof list_text !== 'undefined' && list_text !== '') {
+        list = JSON.parse(list_text);
+        max_id = list.reduce(function (maxid, el) {
+            return el.id > maxid ? el.id : maxid;
+        });
+    } else {
+        max_id = 0;
+        list = new Array();
     }
-    var list = JSON.parse(list_text);
-    max_id = list.reduce(function (maxid, el) {
-        return el.id > maxid ? el.id : maxid;
-    });
     list.push({
-        id: 1,
+        id: max_id + 1,
         text: document.getElementById('input_text').innerText
     });
     localStorage.setItem('todo', list);
