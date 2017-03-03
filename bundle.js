@@ -77,6 +77,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.remove_task = remove_task;
+exports.add_task = add_task;
 function remove_task(id) {
     var list = JSON.parse(localStorage.getItem('todo'));
     localStorage.setItem('todo', list.filter(function (item) {
@@ -84,15 +85,24 @@ function remove_task(id) {
     }));
 }
 
-// export function add_task() {
-//     let list = JSON.parse(localStorage.getItem('todo'))
-//     // max_ind = list.reduce((maxind, ind) => {})
-//     list.push({
-//         id: 1,
-//         text: document.getElementById('input_text').innerText 
-//     })
-//     localStorage.setItem('todo', list)
-// }
+function add_task() {
+    var list_text = localStorage.getItem('todo');
+    alert(list_text);
+    if (list_text !== null) {
+        list = JSON.parse(list_text);
+        max_id = list.reduce(function (maxid, el) {
+            return el.id > maxid ? el.id : maxid;
+        }, 0);
+    } else {
+        max_id = 0;
+        list = new Array();
+    }
+    list.push({
+        id: max_id + 1,
+        text: document.getElementById('input_text').innerText
+    });
+    localStorage.setItem('todo', JSON.stringify(list));
+}
 
 /***/ }),
 /* 1 */
@@ -105,11 +115,14 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.update_view = update_view;
+
+var _model = __webpack_require__(0);
+
 function update_view(list) {
     var html_list = list.reduce(function (previous, current) {
-        return previous + "<li>" + current.text + "\n                    <button onclick=\"remove_task(" + current.id + ")\">x</button></li>";
+        return previous + '<li>' + current.text + '\n                    <button onclick="remove_task(' + current.id + ')">x</button></li>';
     }, '');
-    document.getElementById("main").innerHTML = "<ul>\n        " + html_list + "\n    </ul>";
+    document.getElementById("main").innerHTML += html_list;
 }
 
 /***/ }),
@@ -124,24 +137,10 @@ var _model = __webpack_require__(0);
 var _view = __webpack_require__(1);
 
 // import { add_task } from './model'
+document.getElementById('input_text').addEventListener('click', _model.add_task);
+
 if (localStorage.getItem('todo') !== null) {
     (0, _view.update_view)(JSON.parse(localStorage.todo));
-}
-
-function add_task() {
-    var list_text = localStorage.getItem('todo');
-    if (list_text === null) {
-        list_text = JSON.stringify(new Array());
-    }
-    var list = JSON.parse(list_text);
-    max_id = list.reduce(function (maxid, el) {
-        return el.id > maxid ? el.id : maxid;
-    });
-    list.push({
-        id: 1,
-        text: document.getElementById('input_text').innerText
-    });
-    localStorage.setItem('todo', list);
 }
 
 /***/ })
