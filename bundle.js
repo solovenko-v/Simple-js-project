@@ -168,10 +168,14 @@ function update_view_1() {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; // import { add_task } from './model'
+
+
 var _model = __webpack_require__(0);
 
 var _view = __webpack_require__(1);
 
+<<<<<<< HEAD
 // import { add_task } from './model'
 var inputField = document.getElementById('input_text');
 if (!inputField) {
@@ -181,6 +185,32 @@ if (!inputField) {
 }
 
 (0, _view.update_view)();
+=======
+var list_text = localStorage.getItem('todo');
+if (typeof list_text !== 'undefined' && list_text !== '') {
+    alert(typeof list_text === 'undefined' ? 'undefined' : _typeof(list_text));
+    (0, _view.update_view)(JSON.parse(list_text));
+    alert(1);
+}
+
+function add_task() {
+    var list_text = localStorage.getItem('todo');
+    if (typeof list_text !== 'undefined' && list_text !== '') {
+        list = JSON.parse(list_text);
+        max_id = list.reduce(function (maxid, el) {
+            return el.id > maxid ? el.id : maxid;
+        });
+    } else {
+        max_id = 0;
+        list = new Array();
+    }
+    list.push({
+        id: max_id + 1,
+        text: document.getElementById('input_text').innerText
+    });
+    localStorage.setItem('todo', list);
+}
+>>>>>>> 1b73d32d46a770523860b176ef9314298f6b8cf6
 
 /***/ })
 /******/ ]);
