@@ -78,30 +78,37 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.remove_task = remove_task;
 exports.add_task = add_task;
-function remove_task(id) {
+
+var _view = __webpack_require__(1);
+
+function remove_task() {
+    var _this = this;
+
     var list = JSON.parse(localStorage.getItem('todo'));
     localStorage.setItem('todo', list.filter(function (item) {
-        return item !== id;
+        return item !== _this.parentNode.id;
     }));
+
+    (0, _view.update_view)();
 }
 
 function add_task() {
     var list_text = localStorage.getItem('todo');
-    alert(list_text);
+    var max_id = 0;
+    var list = new Array();
     if (list_text !== null) {
         list = JSON.parse(list_text);
         max_id = list.reduce(function (maxid, el) {
             return el.id > maxid ? el.id : maxid;
         }, 0);
-    } else {
-        max_id = 0;
-        list = new Array();
     }
     list.push({
         id: max_id + 1,
         text: document.getElementById('input_text').innerText
     });
     localStorage.setItem('todo', JSON.stringify(list));
+
+    (0, _view.update_view)();
 }
 
 /***/ }),
@@ -118,11 +125,40 @@ exports.update_view = update_view;
 
 var _model = __webpack_require__(0);
 
-function update_view(list) {
-    var html_list = list.reduce(function (previous, current) {
-        return previous + '<li>' + current.text + '\n                    <button onclick="remove_task(' + current.id + ')">x</button></li>';
-    }, '');
-    document.getElementById("main").innerHTML += html_list;
+function update_view() {
+    if (localStorage.getItem('todo') !== null) {
+        var _list = JSON.parse(localStorage.todo);
+        var html_list = _list.reduce(function (previous, current) {
+            return previous + '<li class="task" \n                        id="' + current.id + '">' + current.text + '\n                        <button id="' + ('b' + current.id) + '">x</button></li>';
+        }, '');
+
+        document.getElementById("list").innerHTML += html_list;
+
+        // add handlers for buttons
+        _list.forEach(function (element) {
+            document.getElementById('b' + element.id).addEventListener('onclick', _model.remove_task);
+        }, this);
+    }
+}
+
+function update_view_1() {
+    if (localStorage.getItem('todo') !== null) {
+        var elParent = document.getElementById("list");
+        var elList = list.map(function (item, index, array) {
+            var el = document.createElement('li');
+            el.className = 'task';
+            el.id = item.id;
+            el.innerText = item.text;
+            var button = document.createElement('button').addEventListener;
+            button.innerText = 'x';
+            elParent.insertBefore(el, null);
+            var nel = document.getElementById(JSON.stringify(item.id));
+            alert(toString(nel));
+            nel.insertBefore(button, null);
+            button.addEventListener('onclick', _model.remove_task);
+            return nel;
+        });
+    }
 }
 
 /***/ }),
@@ -137,11 +173,14 @@ var _model = __webpack_require__(0);
 var _view = __webpack_require__(1);
 
 // import { add_task } from './model'
-document.getElementById('input_text').addEventListener('click', _model.add_task);
-
-if (localStorage.getItem('todo') !== null) {
-    (0, _view.update_view)(JSON.parse(localStorage.todo));
+var inputField = document.getElementById('input_text');
+if (!inputField) {
+    document.getElementById('input').innerHTML = '<input type="text" id="input_text">';
+    var inputFieldAdded = document.getElementById('input_text');
+    inputFieldAdded.addEventListener('onclick', _model.add_task);
 }
+
+(0, _view.update_view)();
 
 /***/ })
 /******/ ]);
