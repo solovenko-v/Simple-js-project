@@ -9,30 +9,12 @@
     </head>
     <body>
         <div id="main">
-<<<<<<< HEAD
             <div id="input">
                 
             </div>
             <ul id="list">
 
             </ul>
-=======
-            <input type="text" name="add task" 
-            onkeydown="let list_text = localStorage.getItem('todo')
-                if (typeof(list_text) !== 'undefined' && list_text !== null && list_text !== '') {
-                    list = JSON.parse(list_text)
-                    max_id = list.reduce((maxid, el) => el.id > maxid ? el.id : maxid) 
-                } else {
-                    max_id = 0
-                    list = new Array() 
-                }
-                list.push({
-                    id: max_id + 1,
-                    text: document.getElementById('input_text').innerText 
-                })
-                localStorage.setItem('todo', JSON.list)" 
-            id="input_text">
->>>>>>> 1b73d32d46a770523860b176ef9314298f6b8cf6
         </div>
     </body>
 </html>

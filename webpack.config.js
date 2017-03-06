@@ -1,8 +1,10 @@
 module.exports = {
+    devtool: 'eval-source-map',
     entry: "./app/controller.js",
     output: {
         path: __dirname,
-        filename: "bundle.js"
+        filename: "bundle.js",
+        sourceMapFilename: "bundle.js.map"
     },
     module: {
         loaders: [
